@@ -12,4 +12,8 @@ public class HelloController {
     public String sayHello(@PathVariable("name") String name) {
         return "Hello World, My Name is " + name + ". What's your name?";
     }
-}
+
+    @RequestMapping(value="/bye/{name}", method = RequestMethod.GET)
+    public String sayBye(@PathVariable("name") String name){
+        return "Bye my World " + name;
+    }
