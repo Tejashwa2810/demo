@@ -2,6 +2,7 @@ package com.example.springap.Services;
 
 import com.example.springap.Models.Product;
 import com.example.springap.dto.FakeStoreProductDto;
+import com.example.springap.exceptions.ProductNotFoundException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,16 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product getSingleProduct(Long id) {
+    public Product getSingleProduct(Long id) throws ProductNotFoundException {
         System.out.println("Starting API");
         FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
-        assert fakeStoreProductDto != null;
+
+        if(fakeStoreProductDto == null){
+            throw new ProductNotFoundException("Product not found with id " + id);
+        }
+
+        //assert fakeStoreProductDto != null;
+
         System.out.println(fakeStoreProductDto.toString());
         return fakeStoreProductDto.getProduct();  /* Tells that "fakeStoreProductDto" maps external properties
                                                      into our class defined properties */

@@ -2,6 +2,10 @@ package com.example.springap.Packages;
 
 import com.example.springap.Models.Product;
 import com.example.springap.Services.ProductService;
+import com.example.springap.dto.ErrorDto;
+import com.example.springap.exceptions.ProductNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,11 +32,16 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public Product getProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
         System.out.println("Starting API");
         Product p = productService.getSingleProduct(id);
         System.out.println("Ending API");
-        return p;
+
+        ResponseEntity<Product> response = new ResponseEntity<>(
+                p, HttpStatus.OK
+        );
+
+        return response;
     }
 
     @DeleteMapping("/products/delete/{id}")
@@ -51,5 +60,15 @@ public class ProductController {
                 product.getCategory().getTitle()
         );
         return p;
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorDto> handlingProductNotFoundException(Exception e){
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setMessage(e.getMessage());
+
+        return new ResponseEntity<>(
+                errorDto, HttpStatus.NOT_FOUND
+        );
     }
 }
