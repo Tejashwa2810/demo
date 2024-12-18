@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -39,8 +41,11 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        System.out.println("Fetching all products");
-        return List.of();
+        ResponseEntity<FakeStoreProductDto[]> response = restTemplate.exchange("https://fakestoreapi.com/products/", HttpMethod.GET, null, FakeStoreProductDto[].class);
+        FakeStoreProductDto[] productDto = response.getBody();
+        assert productDto != null;
+
+        return Arrays.stream(productDto).map(FakeStoreProductDto::getProduct).toList();
     }
 
     @Override

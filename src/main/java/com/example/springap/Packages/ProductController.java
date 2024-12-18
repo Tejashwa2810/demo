@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
 
@@ -60,6 +62,11 @@ public class ProductController {
                 product.getCategory().getTitle()
         );
         return p;
+    }
+
+    @GetMapping("/product/getAll")
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
