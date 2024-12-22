@@ -1,21 +1,20 @@
 package com.example.springap.Models;
 
-public class Product {
-    private Long id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+
+import java.util.Date;
+
+@Entity
+public class Product extends BaseModel {
     private String title;
     private String description;
     private Double price;
     private String imageUrl;
+    @ManyToOne
     private Category category;
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -59,8 +58,27 @@ public class Product {
 
     public Product() {}
 
-    public Product(Long id, String title, String description, Double price, String imageUrl, Category category) {
-        this.id = id;
+    @Override
+    public String toString() {
+        return "Product{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", category=" + category +
+                '}';
+    }
+
+    public Product(Long id, Date createdAt, Date updatedAt, boolean deleted, String title, String description, Double price, String imageUrl, Category category) {
+        super(id, createdAt, updatedAt, deleted);
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.category = category;
+    }
+
+    public Product(String title, String description, Double price, String imageUrl, Category category) {
         this.title = title;
         this.description = description;
         this.price = price;

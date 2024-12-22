@@ -1,22 +1,22 @@
 package com.example.springap.Models;
 
-public class Category {
-    private Long id;
+import jakarta.persistence.Entity;
+
+import java.util.Date;
+
+@Entity
+public class Category extends BaseModel{
     private String title;
 
     public Category() {}
 
-    public Category(Long id, String title) {
-        this.id = id;
+    public Category(Long id, Date createdAt, Date updatedAt, boolean deleted, String title) {
+        super(id, createdAt, updatedAt, deleted);
         this.title = title;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Category(String title) {
+        this.title = title;
     }
 
     public String getTitle() {
