@@ -67,6 +67,38 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>10.13.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>10.13.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.stripe/stripe-java -->
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>28.3.0-beta.1</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -100,6 +132,17 @@
                     </excludes>
                 </configuration>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.flywaydb</groupId>-->
+<!--                <artifactId>flyway-maven-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>migrate</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
