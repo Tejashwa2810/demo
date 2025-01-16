@@ -5,6 +5,7 @@ import com.example.springap.Services.ProductService;
 import com.example.springap.dto.ErrorDto;
 import com.example.springap.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,8 +68,8 @@ public class ProductController {
     }
 
     @GetMapping("/product/getAll")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public Page<Product> getAllProducts(@RequestParam("pageMumber") int pageNumber, @RequestParam("pageSize") int pageSize, @RequestParam("fieldName") String fieldName) {
+        return productService.getAllProducts(pageNumber, pageSize, fieldName);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)

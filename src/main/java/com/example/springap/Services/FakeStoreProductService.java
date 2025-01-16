@@ -3,13 +3,13 @@ package com.example.springap.Services;
 import com.example.springap.Models.Product;
 import com.example.springap.dto.FakeStoreProductDto;
 import com.example.springap.exceptions.ProductNotFoundException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,6 +76,11 @@ public class FakeStoreProductService implements ProductService {
                                                   So, after the API gives us back the updated data,
                                                   we need to convert the FakeStoreProductDto into a
                                                   Product using the getProduct() method. */
+    }
+
+    @Override
+    public Page<Product> getAllProducts(int pageNumber, int pageSize, String fieldName) {
+        return null;
     }
 
 

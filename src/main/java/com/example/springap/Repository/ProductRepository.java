@@ -2,11 +2,13 @@ package com.example.springap.Repository;
 
 import com.example.springap.Models.Product;
 import com.example.springap.Repository.Projections.ProductProjections;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -18,6 +20,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByTitle(String title);
 
     Product findByDescription(String description);
+
+    //Get all Data using Pagination, Sorting, Page size
+    Page<Product> findAll(Pageable pageable);
 
     //Get all Data
     @Query("select p from Product p")

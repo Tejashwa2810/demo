@@ -6,6 +6,9 @@ import com.example.springap.Repository.CategoryRepository;
 import com.example.springap.Repository.ProductRepository;
 import com.example.springap.exceptions.ProductNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,10 +36,11 @@ public class SelfProductService implements ProductService{
         throw new ProductNotFoundException("Product not found");
     }
 
+
     @Override
-    public List<Product> getAllProducts() {
-        List<Product> response = productRepository.getAll();
-        return response;
+    public Page<Product> getAllProducts(int pageNumber, int pageSize, String fieldName) {
+          Page<Product> products = productRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(fieldName).ascending()));
+          return products;
     }
 
     @Override
@@ -59,6 +63,11 @@ public class SelfProductService implements ProductService{
         product.setTitle(title);
         Product savedPRoduct = productRepository.save(product);
         return savedPRoduct;
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return List.of();
     }
 
     @Override
