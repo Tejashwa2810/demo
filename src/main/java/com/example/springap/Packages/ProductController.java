@@ -49,6 +49,21 @@ public class ProductController {
         return response;
     }
 
+
+    //Get FakeStore Product
+    @GetMapping("/products/fake/{id}")
+    public ResponseEntity<Product> getFakeStoreProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
+        System.out.println("Starting API");
+        Product p = productService.getSingleProduct(id);
+        System.out.println("Ending API");
+
+        ResponseEntity<Product> response = new ResponseEntity<>(
+                p, HttpStatus.OK
+        );
+
+        return response;
+    }
+
     @DeleteMapping("/products/delete/{id}")
     public void deleteProduct(@PathVariable("id") Long id){
         productService.deleteProduct(id);

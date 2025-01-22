@@ -1,10 +1,12 @@
 package com.example.springap.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Product extends BaseModel {
     private String title;

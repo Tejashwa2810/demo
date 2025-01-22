@@ -4,6 +4,7 @@ import com.example.springap.Models.Product;
 import com.example.springap.dto.FakeStoreProductDto;
 import com.example.springap.exceptions.ProductNotFoundException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -17,26 +18,47 @@ import java.util.List;
 public class FakeStoreProductService implements ProductService {
 
     private final RestTemplate restTemplate;  // Injects RestTemplate in this Service
+    private final RedisTemplate<String, Object> redisTemplate;
 
     // Used this just to be extra sure
-    public FakeStoreProductService(RestTemplate restTemplate) {
+    public FakeStoreProductService(RestTemplate restTemplate, RedisTemplate<String, Object> redisTemplate) {
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
+
+
+//    @Override
+//    public Product getSingleProduct(Long id) throws ProductNotFoundException {
+//        System.out.println("Starting API");
+//        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
+//
+//        if(fakeStoreProductDto == null){
+//            throw new ProductNotFoundException("Product not found with id " + id);
+//        }
+//
+//        //assert fakeStoreProductDto != null;
+//
+//        System.out.println(fakeStoreProductDto.toString());
+//        return fakeStoreProductDto.getProduct();  /* Tells that "fakeStoreProductDto" maps external properties
+//                                                     into our class defined properties */
+//    }
+
+
+
 
     @Override
     public Product getSingleProduct(Long id) throws ProductNotFoundException {
-        System.out.println("Starting API");
-        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
+        Product redisProduct = (Product) redisTemplate.opsForHash().get("PRODUCTS", "PRODUCTS_"+id);
 
+        if(redisProduct != null){
+            return redisProduct;
+        }
+        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
         if(fakeStoreProductDto == null){
             throw new ProductNotFoundException("Product not found with id " + id);
         }
-
-        //assert fakeStoreProductDto != null;
-
-        System.out.println(fakeStoreProductDto.toString());
-        return fakeStoreProductDto.getProduct();  /* Tells that "fakeStoreProductDto" maps external properties
-                                                     into our class defined properties */
+        redisTemplate.opsForHash().put("PRODUCTS", "PRODUCTS_"+id, fakeStoreProductDto.getProduct());
+        return fakeStoreProductDto.getProduct();
     }
 
     @Override
